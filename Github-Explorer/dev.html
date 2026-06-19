@@ -1,133 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHub Developer Explorer</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
-  <link rel="stylesheet" href="dev.css">
-</head>
-<body>
-  <div class="container">
-
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="brand"><i class="ti ti-brand-github"></i> <span><em>Dev</em>Explorer.</span></div>
-      <div class="topbar-right">
-        <div class="search-wrap">
-          <i class="ti ti-search"></i>
-          <input type="text" id="username" placeholder="Enter GitHub username…"
-            onkeydown="if(event.key==='Enter') search()" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Developer Explorer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="dev.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="brand">
+          <i class="ti ti-brand-github"></i> <span><em>Dev</em>Explorer.</span>
         </div>
-        <button class="search-btn" onclick="search()">
-          <i class="ti ti-search"></i> Search
-        </button>
-        <div class="rate-pill" id="rate-pill" style="display:none">
-          <span class="rate-dot"></span>
-          <span id="rate-text">API: —/60</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Rate limit warning -->
-    <div class="rate-warn" id="rate-warn">
-      <i class="ti ti-alert-triangle"></i>
-      GitHub rate limit reached (60 req/hr unauthenticated). Please wait a few minutes and try again.
-    </div>
-
-    <!-- Error -->
-    <div class="error-box" id="error-box">
-      <i class="ti ti-user-off" style="font-size:26px;display:block;margin-bottom:8px"></i>
-      <span id="error-msg">User not found.</span>
-    </div>
-
-    <div class="main-grid">
-
-      <!-- Left column: profile -->
-      <div class="left-col">
-
-        <!-- Loading skeleton -->
-        <div class="loading-profile" id="loading-profile">
-          <div class="skeleton" style="width:180px;height:180px;border-radius:50%;margin-bottom:18px"></div>
-          <div class="skeleton" style="height:22px;width:70%;margin-bottom:10px"></div>
-          <div class="skeleton" style="height:14px;width:45%;margin-bottom:18px"></div>
-          <div class="skeleton" style="height:14px;width:55%;margin-bottom:24px"></div>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
-            <div class="skeleton" style="height:64px;border-radius:10px"></div>
-            <div class="skeleton" style="height:64px;border-radius:10px"></div>
-            <div class="skeleton" style="height:64px;border-radius:10px"></div>
-            <div class="skeleton" style="height:64px;border-radius:10px"></div>
+        <div class="topbar-right">
+          <div class="search-wrap">
+            <i class="ti ti-search"></i>
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter GitHub username…"
+              onkeydown="if (event.key === 'Enter') search();"
+            />
+          </div>
+          <button class="search-btn" onclick="search()">
+            <i class="ti ti-search"></i> Search
+          </button>
+          <div class="rate-pill" id="rate-pill" style="display: none">
+            <span class="rate-dot"></span>
+            <span id="rate-text">API: —/60</span>
           </div>
         </div>
-
-        <!-- Profile -->
-        <div class="profile-block" id="profile-card">
-          <img class="avatar" id="avatar" src="" alt="avatar" />
-          <div class="profile-name" id="profile-name"></div>
-          <div class="profile-login" id="profile-login"></div>
-          <div class="profile-bio" id="profile-bio"></div>
-
-          <div class="profile-location" id="profile-location"></div>
-          <div class="profile-extra-links" id="profile-links"></div>
-
-          <div class="profile-divider"></div>
-
-          <div class="profile-stats">
-            <div class="pstat"><div class="pstat-n" id="st-followers">—</div><div class="pstat-l">Followers</div></div>
-            <div class="pstat"><div class="pstat-n" id="st-following">—</div><div class="pstat-l">Following</div></div>
-            <div class="pstat"><div class="pstat-n" id="st-repos">—</div><div class="pstat-l">Repos</div></div>
-            <div class="pstat"><div class="pstat-n" id="st-stars">—</div><div class="pstat-l">Stars</div></div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Right column: language chart + repos -->
-      <div class="right-col">
+      <!-- Rate limit warning -->
+      <div class="rate-warn" id="rate-warn">
+        <i class="ti ti-alert-triangle"></i>
+        GitHub rate limit reached (60 req/hr unauthenticated). Please wait a few
+        minutes and try again.
+      </div>
 
-        <!-- Language chart -->
-        <div class="card" id="lang-card">
-          <div class="card-title">Language Breakdown</div>
-          <div class="lang-stack" id="lang-stack"></div>
-          <div class="lang-legend" id="lang-legend"></div>
-        </div>
+      <!-- Error -->
+      <div class="error-box" id="error-box">
+        <i
+          class="ti ti-user-off"
+          style="font-size: 26px; display: block; margin-bottom: 8px"
+        ></i>
+        <span id="error-msg">User not found.</span>
+      </div>
 
-        <!-- Repos -->
-        <div class="card" id="repos-section" style="display:none">
-          <div class="card-title" id="repo-count">Repositories</div>
-
-          <div class="repo-filter-row">
-            <div class="search-wrap">
-              <i class="ti ti-search"></i>
-              <input type="text" id="repo-search" placeholder="Find a repository…" oninput="filterRepos()" />
+      <div class="main-grid">
+        <!-- Left column: profile -->
+        <div class="left-col">
+          <!-- Loading skeleton -->
+          <div class="loading-profile" id="loading-profile">
+            <div
+              class="skeleton"
+              style="
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                margin-bottom: 18px;
+              "
+            ></div>
+            <div
+              class="skeleton"
+              style="height: 22px; width: 70%; margin-bottom: 10px"
+            ></div>
+            <div
+              class="skeleton"
+              style="height: 14px; width: 45%; margin-bottom: 18px"
+            ></div>
+            <div
+              class="skeleton"
+              style="height: 14px; width: 55%; margin-bottom: 24px"
+            ></div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+              "
+            >
+              <div
+                class="skeleton"
+                style="height: 64px; border-radius: 10px"
+              ></div>
+              <div
+                class="skeleton"
+                style="height: 64px; border-radius: 10px"
+              ></div>
+              <div
+                class="skeleton"
+                style="height: 64px; border-radius: 10px"
+              ></div>
+              <div
+                class="skeleton"
+                style="height: 64px; border-radius: 10px"
+              ></div>
             </div>
-            <select id="repo-lang-filter" onchange="filterRepos()">
-              <option value="">All Languages</option>
-            </select>
-            <select id="repo-sort" onchange="filterRepos()">
-              <option value="updated">Recently Updated</option>
-              <option value="stars">Most Stars</option>
-              <option value="forks">Most Forks</option>
-              <option value="name">Name (A–Z)</option>
-            </select>
           </div>
 
-          <div class="repos-list" id="repos-list"></div>
+          <!-- Profile -->
+          <div class="profile-block" id="profile-card">
+            <img class="avatar" id="avatar" src="" alt="avatar" />
+            <div class="profile-name" id="profile-name"></div>
+            <div class="profile-login" id="profile-login"></div>
+            <div class="profile-bio" id="profile-bio"></div>
+
+            <div class="profile-location" id="profile-location"></div>
+            <div class="profile-extra-links" id="profile-links"></div>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-stats">
+              <div class="pstat">
+                <div class="pstat-n" id="st-followers">—</div>
+                <div class="pstat-l">Followers</div>
+              </div>
+              <div class="pstat">
+                <div class="pstat-n" id="st-following">—</div>
+                <div class="pstat-l">Following</div>
+              </div>
+              <div class="pstat">
+                <div class="pstat-n" id="st-repos">—</div>
+                <div class="pstat-l">Repos</div>
+              </div>
+              <div class="pstat">
+                <div class="pstat-n" id="st-stars">—</div>
+                <div class="pstat-l">Stars</div>
+              </div>
+            </div>
+          </div>
         </div>
 
+        <!-- Right column: language chart + repos -->
+        <div class="right-col">
+          <!-- Language chart -->
+          <div class="card" id="lang-card">
+            <div class="card-title">Language Breakdown</div>
+            <div class="lang-stack" id="lang-stack"></div>
+            <div class="lang-legend" id="lang-legend"></div>
+          </div>
+
+          <!-- Repos -->
+          <div class="card" id="repos-section" style="display: none">
+            <div class="card-title" id="repo-count">Repositories</div>
+
+            <div class="repo-filter-row">
+              <div class="search-wrap">
+                <i class="ti ti-search"></i>
+                <input
+                  type="text"
+                  id="repo-search"
+                  placeholder="Find a repository…"
+                  oninput="filterRepos()"
+                />
+              </div>
+              <select id="repo-lang-filter" onchange="filterRepos()">
+                <option value="">All Languages</option>
+              </select>
+              <select id="repo-sort" onchange="filterRepos()">
+                <option value="updated">Recently Updated</option>
+                <option value="stars">Most Stars</option>
+                <option value="forks">Most Forks</option>
+                <option value="name">Name (A–Z)</option>
+              </select>
+            </div>
+
+            <div class="repos-list" id="repos-list"></div>
+          </div>
+        </div>
       </div>
 
+      <a href="../index.html" class="back-to-portfolio">
+        <i class="ti ti-arrow-left"></i> Go back to portfolio
+      </a>
     </div>
 
-    <a href="../team_portfolio/index.html" class="back-to-portfolio">
-      <i class="ti ti-arrow-left"></i> Go back to portfolio
-    </a>
-
-  </div>
-
-  <script src="dev_core.js"></script>
-  <script src="dev_profile.js"></script>
-  <script src="dev_repos.js"></script>
-  <script src="dev_api.js"></script>
-</body>
+    <script src="dev_core.js"></script>
+    <script src="dev_profile.js"></script>
+    <script src="dev_repos.js"></script>
+    <script src="dev_api.js"></script>
+  </body>
 </html>

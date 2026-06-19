@@ -40,3 +40,8 @@ function startQuiz(topic) {
 function retryTopic() {
   startQuiz(currentTopic);
 }
+
+// ── Initialize on page load ────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", function () {
+  buildTopics();
+});
