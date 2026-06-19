@@ -33,10 +33,7 @@ function renderProfile(u) {
 // Total stars across all repos — GitHub's user API doesn't return this
 // directly, so it's derived from allRepos once repos have loaded.
 function updateStarsStat() {
-  const total = allRepos.reduce(
-    (sum, r) => sum + (r.stargazers_count || 0),
-    0,
-  );
+  const total = allRepos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
   document.getElementById("st-stars").textContent = fmt(total);
 }
 
@@ -65,7 +62,7 @@ function renderLangChart(repos) {
     .map(([lang, count]) => {
       const pct = (count / totalWithLang) * 100;
       const color = LANG_COLORS[lang] || LANG_COLORS.default;
-      return ⁠ <div class="lang-seg" style="width:${pct}%;background:${color}" title="${lang} ${Math.round(pct)}%"></div> ⁠;
+      return `<div class="lang-seg" style="width:${pct}%;background:${color}" title="${lang} ${Math.round(pct)}%"></div>`;
     })
     .join("");
 
