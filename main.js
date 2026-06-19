@@ -1,0 +1,3 @@
+loadTheme();
+renderTeam();
+renderProjects();
