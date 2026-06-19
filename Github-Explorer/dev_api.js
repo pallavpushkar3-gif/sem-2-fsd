@@ -18,7 +18,6 @@ async function updateRateLimit() {
 }
 
 // ── Search ────────────────────────────────────────────────────────────
-let allRepos = [];
 
 async function search() {
   const user = document.getElementById("username").value.trim();
