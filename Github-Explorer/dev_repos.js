@@ -3,7 +3,7 @@ function populateLangFilter() {
   const langs = [...new Set(allRepos.map((r) => r.language).filter(Boolean))].sort();
   sel.innerHTML =
     '<option value="">All Languages</option>' +
-    langs.map((l) => ⁠ <option value="${l}">${l}</option> ⁠).join("");
+    langs.map`((l) => <option value="${l}">${l}</option> ⁠)`.join("");
 }
 
 function filterRepos() {
@@ -59,7 +59,7 @@ function renderRepos() {
               ${r.fork ? '<span class="fork-badge">fork</span>' : ""}
             </div>
           </div>
-          ${r.description ? ⁠ <div class="repo-desc">${r.description}</div> ⁠ : '<div style="height:4px"></div>'}
+          ${r.description ? `⁠ <div class="repo-desc">${r.description}</div> ⁠` : '<div style="height:4px"></div>'}
           <div class="repo-bottom">
             ${
               r.language
@@ -76,8 +76,7 @@ function renderRepos() {
             <span class="repo-stat"><i class="ti ti-box"></i>${fmt(r.size)} KB</span>
             <span class="repo-stat"><i class="ti ti-clock"></i>${formatDate(r.pushed_at)}</span>
           </div>
-        </div>
-      `,
+        </div>`
     )
     .join("");
 }
