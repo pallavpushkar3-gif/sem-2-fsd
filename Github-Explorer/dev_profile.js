@@ -9,21 +9,21 @@ function renderProfile(u) {
 
   const loc = document.getElementById("profile-location");
   loc.innerHTML = u.location
-    ? ⁠ <i class="ti ti-map-pin"></i> ${u.location} ⁠
+    ? `<i class="ti ti-map-pin"></i> ${u.location}`
     : "";
   loc.style.display = u.location ? "flex" : "none";
 
   const links = [];
   if (u.company)
     links.push(
-      ⁠ <span class="profile-link"><i class="ti ti-building"></i>${u.company}</span> ⁠,
+      `<span class="profile-link"><i class="ti ti-building"></i>${u.company}</span>`,
     );
   if (u.blog)
     links.push(
-      ⁠ <a class="profile-link" href="${u.blog}" target="_blank" rel="noopener"><i class="ti ti-link"></i>${u.blog.replace(/^https?:\/\//, "")}</a> ⁠,
+      `<a class="profile-link" href="${u.blog}" target="_blank" rel="noopener"><i class="ti ti-link"></i>${u.blog.replace(/^https?:\/\//, "")}</a>`,
     );
   links.push(
-    ⁠ <a class="profile-link" href="https://github.com/${u.login}" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View on GitHub</a> ⁠,
+    `<a class="profile-link" href="https://github.com/${u.login}" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View on GitHub</a>`,
   );
   document.getElementById("profile-links").innerHTML = links.join("");
 
