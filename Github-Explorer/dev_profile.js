@@ -1,3 +1,11 @@
+
+
+// dev-profile.js
+// Everything for the "user overview" side of the app: the profile
+// card (avatar, name, bio, stats) and the language breakdown chart
+// that summarizes the user's repos.
+// Depends on: dev-core.js (LANG_COLORS, fmt, show, allRepos).
+
 function renderProfile(u) {
   document.getElementById("avatar").src = u.avatar_url;
   document.getElementById("profile-name").textContent = u.name || u.login;
@@ -78,5 +86,4 @@ function renderLangChart(repos) {
     })
     .join("");
 
-  show("lang-card", "block");
-}
+  show("lang-card", "block");}
